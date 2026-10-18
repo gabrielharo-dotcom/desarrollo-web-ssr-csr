@@ -1,44 +1,43 @@
-# Laboratorio 09 — PokeApp
+# Semana 09 — Desarrollo de Aplicaciones Web Avanzado
 
-Implementado hasta la primera solicitud de capturas: ejercicio 1.1 (CSR y SSR).
+Dos proyectos independientes de Next.js dentro de un único repositorio.
 
-## Ejecutar
+| Carpeta | Contenido |
+| --- | --- |
+| `laboratorio/` | Pokémon CSR y SSR, dashboard híbrido del clima y capturas del laboratorio |
+| `tarea/` | Plano, galería de películas y series con OMDb |
 
-Desde esta carpeta:
+## Sitio publicado
+
+**Plano:** https://plano-cinema.vercel.app
+
+## Ejecutar un proyecto
+
+Abrir una terminal en la carpeta deseada:
 
 ```powershell
+cd laboratorio
 npm install
 npm run dev
 ```
 
-Si Node no está disponible en la terminal actual:
+Para la galería, usar `cd tarea` en lugar de `cd laboratorio`. Cada proyecto tiene su propio `package.json`, `package-lock.json` y dependencias. La carpeta raíz es la del repositorio, no una aplicación ejecutable.
+
+Si se ejecutan ambos al mismo tiempo, iniciar el segundo con `npm run dev -- --port 3001`.
+
+## Configuración de la tarea
+
+La galería utiliza `OMDB_API_KEY` en `tarea/.env.local` durante el desarrollo y como variable de entorno secreta en Vercel. La configuración local existente se conserva y no se incluye en Git. Hay una plantilla sin credenciales en `tarea/.env.example`.
+
+## GitHub y Vercel
+
+Subir este repositorio desde **semana09** para incluir las carpetas `laboratorio` y `tarea` juntas. Los archivos privados, las dependencias instaladas y los resultados de compilación están excluidos por `.gitignore`.
+
+Para conectar GitHub a Plano en Vercel, seleccionar **Root Directory: tarea**. Si se publica también el laboratorio, crear otro proyecto de Vercel con **Root Directory: laboratorio**.
+
+La vinculación local del proyecto de Plano está en `tarea/.vercel`, excluida de Git. Para actualizar su despliegue desde la terminal:
 
 ```powershell
-$env:Path = "C:\Program Files\nodejs;" + $env:Path
-npm.cmd run dev
-```
-
-Abrir:
-
-- http://localhost:3000/pokemon-csr
-- http://localhost:3000/pokemon-ssr
-
-## Primera captura
-
-Capturar el resultado de ambas páginas cuando se vea el Pokémon, su nombre y sus tipos. El Pokémon es aleatorio, por lo que puede ser distinto en cada página.
-
-## Código
-
-- `app/pokemon-csr/page.tsx`: usa `use client`, `useState`, `useEffect` y Axios para obtener los datos en el navegador.
-- `app/pokemon-ssr/page.tsx`: componente de servidor asíncrono con Axios. `force-dynamic` evita generar esta página estáticamente durante el build.
-- Se conserva el diseño y el contenido de la guía. La portada solo proporciona acceso a las dos rutas.
-- No se incluyen el dashboard del clima ni la tarea de películas.
-
-Ambas páginas necesitan conexión a Internet para consultar PokeAPI y descargar las imágenes.
-
-## Verificación
-
-```powershell
-npx tsc --noEmit
-npm run build
+cd tarea
+npx vercel --prod
 ```
